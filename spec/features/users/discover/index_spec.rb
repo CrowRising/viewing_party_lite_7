@@ -5,8 +5,8 @@ require 'rails_helper'
 RSpec.describe 'Discover Movies Page' do
   describe 'as a user when I visit the discover movies page' do
     before :each do
-      @user1 = User.create!(name: 'Danny', email: 'callmeDan@yaho.com')
-      @user2 = User.create!(name: 'Sandy', email: 'itsSandyifyounasty@hotmail.com')
+      @user1 = User.create!(name: 'Danny', email: 'callmeDan@yaho.com', password: 'password')
+      @user2 = User.create!(name: 'Sandy', email: 'itsSandyifyounasty@hotmail.com', password: 'something')
       visit user_discover_index_path(@user1.id)
     end
 
