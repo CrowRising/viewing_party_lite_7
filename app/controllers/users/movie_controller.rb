@@ -12,10 +12,15 @@ module Users
     end
 
     def show
-      @user = User.find(params[:user_id])
-      @movie = MovieFacade.get_movie(params[:id])
-      @cast = MovieFacade.top_ten_cast(params[:id])
-      @reviews = MovieFacade.reviews(params[:id])
+      if current_user
+        @user = User.find(params[:user_id])
+        @movie = MovieFacade.get_movie(params[:id])
+        @cast = MovieFacade.top_ten_cast(params[:id])
+        @reviews = MovieFacade.reviews(params[:id])
+      else
+        flash[:error] = 'You must be logged in to view this page.'
+        redirect_to root_path
+      end
     end
   end
 end

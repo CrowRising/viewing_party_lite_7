@@ -8,8 +8,10 @@ RSpec.describe 'User Dashboard', type: :feature do
       @user1 = User.create!(name: 'Danny', email: 'dannyzuko@grease.com', password: 'password')
       @user2 = User.create!(name: 'Sandy', email: 'sandy@grease.com', password: 'something')
 
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
-      visit user_path(@user1.id)
+      visit login_path
+      fill_in :email, with: @user1.email
+      fill_in :password, with: @user1.password
+      click_button 'Log In'
     end
 
     it 'when I visit the user dashboard I see a header with user name' do
@@ -73,8 +75,10 @@ RSpec.describe 'User Dashboard', type: :feature do
       @viewing_party_user_2 = UserViewingParty.create!(user_id: @user1.id, viewing_party_id: @viewing_party_2.id)
       @viewing_party_user_3 = UserViewingParty.create!(user_id: @user2.id, viewing_party_id: @viewing_party_1.id)
 
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
-      visit user_path(@user1.id)
+      visit login_path
+      fill_in :email, with: @user1.email
+      fill_in :password, with: @user1.password
+      click_button 'Log In'
     end
 
     it 'displays viewing parties that the user is hosting', :vcr do

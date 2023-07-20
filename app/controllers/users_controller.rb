@@ -1,16 +1,22 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
+  helper_method :current_user
   def new
     @user = User.new
   end
 
   def show
-    @user = current_user
-    @viewing_parties = @user.viewing_parties
-    @parties_info = []
-    @viewing_parties.each do |party|
-      @parties_info << party.collect_display_data
+    if session[:user_id] != nil
+      @user = current_user
+      @viewing_parties = @user.viewing_parties
+      @parties_info = []
+      @viewing_parties.each do |party|
+        @parties_info << party.collect_display_data
+      end
+    else
+      flash[:error] = 'You must be logged in to view this page.'
+      redirect_to root_path
     end
   end
 

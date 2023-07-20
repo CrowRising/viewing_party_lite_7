@@ -6,6 +6,10 @@ RSpec.describe 'Movie Show Page' do
   describe 'as a user when I visit the movie show page' do
     before :each do
       @user1 = User.create!(name: 'Danny', email: 'flyfish213@aol.com', password: 'password')
+      visit login_path
+      fill_in :email, with: @user1.email
+      fill_in :password, with: @user1.password
+      click_button 'Log In'
       visit "/users/#{@user1.id}/movie/238"
     end
 
@@ -57,6 +61,16 @@ RSpec.describe 'Movie Show Page' do
         click_button 'Back to Discover'
       end
       expect(current_path).to eq(user_discover_index_path(@user1))
+    end
+  end
+
+  describe 'as a visitor when I visit the movie show page' do
+    it 'cannot create a viewing party if not logged in', :vcr do 
+      @user2 = User.create!(name: 'Danny', email: 'yourmom@aol.com', password: 'password') 
+      visit "/users/#{@user2.id}/movie/238"
+     
+      expect(current_path).to eq(root_path)
+      expect(page).to have_content('You must be logged in to view this page.')
     end
   end
 end
